@@ -1,0 +1,16 @@
+@include block(navbar) {
+	height: $navbar-h-height;
+	border-bottom: $separator-width solid $separator-color;
+
+	@include modifier(top) {
+
+	}
+
+	@include modifier(bottom) {
+
+	}
+
+	@include element(logo) {
+		width: 8rem;
+	}
+}

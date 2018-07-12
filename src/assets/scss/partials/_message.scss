@@ -1,0 +1,11 @@
+@include block(composer) {
+
+	.input-group {
+		border: none;
+	}
+
+	@include element(textarea) {
+		border: none;
+		resize: none;
+	}
+}

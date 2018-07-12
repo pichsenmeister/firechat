@@ -1,0 +1,37 @@
+@include block(conversation-view) {
+	padding: 0;
+
+	@include element(header) {
+		border-bottom: $separator-width solid $separator-color;
+	}
+
+	@include element(footer) {
+		border-top: $separator-width solid $separator-color;
+	}
+}
+
+@include block(conversation-list) {
+
+	@include element(search) {
+		padding: 1rem;
+	}
+}
+
+@include block(conversation-teaser) {
+	cursor: pointer;
+
+	@include element(avatar) {
+		border-radius: 50%;
+		width: 3rem;
+		height: 3rem;
+	}
+
+	@include modifier(active) {
+		background: $gray-200;
+	}
+
+	&:hover {
+		background: $gray-200;
+	}
+	
+}

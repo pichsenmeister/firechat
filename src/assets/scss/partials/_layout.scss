@@ -1,0 +1,29 @@
+@include block(layout) {
+	height: 100vh;
+
+	@include modifier(horizontal) {
+		height: calc(100vh - #{$navbar-h-height});
+	}
+
+	@include modifier(vertical) {
+		width: calc(100vw - #{$navbar-v-width});
+	}
+
+	@include element(sidebar) {
+		background: inherit;
+		padding: 0;
+
+		@include modifier('left') {
+			border-right: $separator-width solid $separator-color;
+		}
+
+		@include modifier(right) {
+			border-left: $separator-width solid $separator-color;
+		}
+	}
+
+	@include element(main) {
+		padding: 0;
+	}
+
+}

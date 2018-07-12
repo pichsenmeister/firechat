@@ -1,0 +1,33 @@
+@import "~sass-bem-mixins/index.scss";
+@import "partials/variables.scss";
+
+@import "~bootstrap/scss/bootstrap.scss";
+
+// override some bootstrap defaults
+@import "partials/override.scss";
+
+// layout
+@import "partials/layout.scss";
+@import "partials/navbar.scss";
+
+// components
+@import "partials/conversation.scss";
+@import "partials/message.scss";
+
+@import url("https://use.fontawesome.com/releases/v5.0.13/css/all.css");
+
+body {
+	height: 100vh;
+}
+
+html, body {
+	font-size: $font-size-base;
+}
+
+div {
+	box-sizing: border-box;
+}
+
+.section {
+	margin: 4rem auto;
+}

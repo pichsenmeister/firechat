@@ -1,0 +1,22 @@
+.input-group {
+	border: 1px solid $gray-400;
+	
+	.form-control {
+		border: none;
+	}
+	.input-group-append, .input-group-prepend {
+		border: none;
+		.input-group-text {
+			border: none;
+			background: inherit;
+		}
+		
+	}
+}
+
+.form-control {
+	&:focus {
+		box-shadow: none;
+		border-color: inherit;
+	}
+}
