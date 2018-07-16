@@ -27,11 +27,11 @@
 	}
 
 	@include modifier(active) {
-		background: $gray-200;
+		background: $gray-100;
 	}
 
 	&:hover {
-		background: $gray-200;
+		background: $gray-100;
 	}
 	
 }

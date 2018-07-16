@@ -2,15 +2,36 @@ import firebase from 'firebase'
 import Store from '@/store'
 
 console.log('using env: ' + process.env.NODE_ENV)
-export const FirebaseApp = firebase.initializeApp(process.env.FIREBASE_CONFIG)
+
+const FirebaseApp = firebase.initializeApp(process.env.FIREBASE_CONFIG)
+const firestore = firebase.firestore()
+const settings = {timestampsInSnapshots: true}
+firestore.settings(settings)
+FirebaseApp.db = firestore
+
+FirebaseApp.loadUser = async currentUser => {
+	console.log('load user')
+	let user = await firestore.collection('users').doc(currentUser.uid).get()
+	console.log(user)
+	Store.commit('setUser', user)
+}
 
 FirebaseApp.signup = async (email, password) => {
+	console.log('signup')
 	try {
-		let user = await firebase.auth().createUserWithEmailAndPassword(email, password)
-		await user.sendEmailVerifcation()
-		Store.commit('setUser', firebase.auth().currentUser)
+		await firebase.auth().createUserWithEmailAndPassword(email, password)
+
+		let currentUser = firebase.auth().currentUser
+		await currentUser.sendEmailVerification()
+		await FirebaseApp.db.collection('users').doc(currentUser.uid).set({
+			email: currentUser.email
+		})
+		let user = await firestore.collection('users').doc(currentUser.uid).get()
+
+		Store.commit('setUser', user)
 		return true
 	} catch (err) {
+		console.error(err)
 		err.error = true
 		return err
 	}
@@ -19,9 +40,14 @@ FirebaseApp.signup = async (email, password) => {
 FirebaseApp.signin = async (email, password) => {
 	try {
 		await firebase.auth().signInWithEmailAndPassword(email, password)
-		Store.commit('setUser', firebase.auth().currentUser)
+
+		let currentUser = firebase.auth().currentUser
+		let user = await firestore.collection('users').doc(currentUser.uid).get()
+
+		Store.commit('initUser', user)
 		return true
 	} catch (err) {
+		console.error(err)
 		err.error = true
 		return err
 	}
@@ -36,7 +62,10 @@ FirebaseApp.resetPassword = async email => {
 		await firebase.auth().sendPasswordResetEmail(email)
 		return true
 	} catch (err) {
+		console.error(err)
 		err.error = true
 		return err
 	}
 }
+
+export default FirebaseApp

@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+import LayoutView from '@/components/LayoutView'
 import Store from '@/store'
-import UserDashboard from '@/components/UserDashboard'
 import UserSignin from '@/components/UserSignin'
 import UserSignup from '@/components/UserSignup'
 import UserPasswordReset from '@/components/UserPasswordReset'
@@ -23,14 +23,14 @@ const router = new Router({
 		name: 'UserPasswordReset',
 		component: UserPasswordReset
 	}, {
-		path: '/dashboard',
-		name: 'UserDashboard',
-		component: UserDashboard,
+		path: '/home',
+		name: 'LayoutView',
+		component: LayoutView,
 		meta: {
 			auth: true
 		}
 	},
-	{ path: '*', redirect: '/dashboard' }]
+	{ path: '*', redirect: '/home' }]
 })
 
 router.beforeEach((to, from, next) => {

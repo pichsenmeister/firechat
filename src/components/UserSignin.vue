@@ -43,9 +43,7 @@
 </template>
 
 <script>
-import {
-	FirebaseApp
-} from '@/FirebaseApp'
+import FirebaseApp from '@/FirebaseApp'
 
 export default {
 	name: 'UserSignin',

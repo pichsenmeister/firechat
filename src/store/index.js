@@ -1,19 +1,22 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import ConversationStore from '@/store/modules/conversation'
+import MessageStore from '@/store/modules/message'
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+	modules: {
+		conversation: ConversationStore,
+		message: MessageStore
+	},
 	state: {
-		conversation: null,
 		loading: false,
 		routeAttempt: null,
 		user: null
 	},
 	mutations: {
-		setConversation (state, payload) {
-			state.conversation = payload
-		},
 		setLoading (state, payload) {
 			state.loading = payload
 		},
@@ -26,8 +29,8 @@ export default new Vuex.Store({
 	},
 	getters: {
 		isLoading: state => state.loading,
-		conversation: state => state.conversation,
 		routeAttempt: state => state.routeAttempt,
-		user: state => state.user
+		userId: state => state.user ? state.user.id : null,
+		user: state => state.user ? state.user.data() : null
 	}
 })

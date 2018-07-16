@@ -12,7 +12,7 @@
 			</b-col>
 		</b-row>
 
-		<conversation-teaser v-for="conversation in conversations" :key="conversation.id"
+		<conversation-teaser v-for="conversation in $store.getters.conversations" :key="conversation.id"
 			v-bind="{conversation: conversation}">
 		</conversation-teaser>
 
@@ -23,32 +23,8 @@
 
 export default {
 	name: 'ConversationList',
-	data () {
-		return {
-			conversations: [
-				{
-					id: 1,
-					name: 'David',
-					updated_at: (new Date()),
-					last_message: 'This is the last message from someone'
-				},
-				{
-					id: 2,
-					name: 'Peter',
-					updated_at: (this.$moment().subtract(1, 'years'))
-				},
-				{
-					id: 3,
-					name: 'Carla',
-					updated_at: (this.$moment().subtract(6, 'days'))
-				},
-				{
-					id: 4,
-					name: 'Carina',
-					updated_at: (this.$moment().subtract(4, 'months'))
-				}
-			]
-		}
+	created () {
+		this.$store.dispatch('loadConversations', this.$store.getters.userId)
 	}
 }
 </script>

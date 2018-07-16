@@ -18,7 +18,7 @@ import MessageComposer from '@/components/partials/MessageComposer'
 
 import NavbarHorizontal from '@/components/NavbarHorizontal'
 
-import '@/FirebaseApp'
+import FirebaseApp from '@/FirebaseApp'
 import '@/assets/scss/style.scss'
 
 Vue.use(BootstrapVue)
@@ -36,7 +36,7 @@ Vue.config.productionTip = process.env.NODE_ENV === 'production'
 
 let app
 
-firebase.auth().onAuthStateChanged(user => {
+const init = () => {
 	if (!app) {
 		/* eslint-disable no-new */
 		app = new Vue({
@@ -49,5 +49,13 @@ firebase.auth().onAuthStateChanged(user => {
 			template: '<App/>'
 		})
 	}
-	store.commit('setUser', user)
+}
+
+firebase.auth().onAuthStateChanged(async currentUser => {
+	if (currentUser) {
+		await FirebaseApp.loadUser(currentUser)
+	} else {
+		store.commit('setUser', null)
+	}
+	init()
 })

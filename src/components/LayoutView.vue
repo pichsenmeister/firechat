@@ -27,7 +27,7 @@
 import Layout from '@/layout'
 
 export default {
-	name: 'UserDashboard',
+	name: 'LayoutView',
 	computed: {
 		user () {
 			return this.$store.getters.user

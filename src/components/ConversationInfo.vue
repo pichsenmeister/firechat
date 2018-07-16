@@ -1,5 +1,5 @@
 <template>
-	<section class="conversation-info h-100">
+	<section class="conversation-info h-100" v-if="conversation">
 
 		<b-row class="text-center">
 			<b-col>
@@ -13,10 +13,6 @@
 				<h4>{{ conversation.name }}</h4>
 			</b-col>
 		</b-row>
-
-		<conversation-teaser v-for="conversation in conversations" :key="conversation.id"
-			v-bind="{conversation: conversation}">
-		</conversation-teaser>
 
 	</section>
 </template>
