@@ -1,17 +1,17 @@
-@include block(conversation-view) {
-	padding: 0;
+@include block(conversation-info) {
+	padding: 2rem;
 
-	@include element(header) {
-		border-bottom: $separator-width solid $separator-color;
-	}
-
-	@include element(footer) {
-		border-top: $separator-width solid $separator-color;
+	@include element(avatar) {
+		border-radius: 50%;
+		width: 8rem;
+		height: 8rem;
 	}
 }
 
 @include block(conversation-list) {
-
+	overflow-y: scroll;
+	overflow-x: hidden;
+	
 	@include element(search) {
 		padding: 1rem;
 	}
@@ -32,6 +32,20 @@
 
 	&:hover {
 		background: $gray-100;
-	}
-	
+	}	
 }
+
+@include block(conversation-view) {
+	padding: 0;
+
+	@include element(header) {
+		border-bottom: $separator-width solid $separator-color;
+	}
+
+	@include element(footer) {
+		border-top: $separator-width solid $separator-color;
+	}
+}
+
+
+

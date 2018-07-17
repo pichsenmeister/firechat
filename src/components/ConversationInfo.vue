@@ -1,16 +1,16 @@
 <template>
-	<section class="conversation-info h-100" v-if="conversation">
+	<section class="conversation-info h-100" v-if="activeConversation">
 
 		<b-row class="text-center">
 			<b-col>
-				<b-img slot="aside" :alt="conversation.name" :src="conversation.avatar" class="teaser__avatar" v-if="conversation.avatar" />
-				<b-img slot="aside" :alt="conversation.name" src="https://www.gravatar.com/avatar/7ed9b5a57a659a8c4d2f38141346912d" class="teaser__avatar" v-else />
+				<b-img slot="aside" :alt="name" :src="avatar" class="conversation-info__avatar" v-if="avatar" />
+				<b-img slot="aside" :alt="name" src="https://www.gravatar.com/avatar/7ed9b5a57a659a8c4d2f38141346912d" class="conversation-info__avatar" v-else />
 			</b-col>
 		</b-row>
 
-		<b-row class="text-center">
+		<b-row class="text-center mt-2">
 			<b-col>
-				<h4>{{ conversation.name }}</h4>
+				<h4>{{ name }}</h4>
 			</b-col>
 		</b-row>
 
@@ -18,12 +18,27 @@
 </template>
 
 <script>
+import UIHelper from '@/services/uihelper'
 
 export default {
 	name: 'ConversationInfo',
 	computed: {
-		conversation () {
-			return this.$store.getters.conversation
+		activeConversation () {
+			return this.$store.getters.activeConversation
+		}
+	},
+	watch: {
+		activeConversation (value) {
+			if (!this.activeConversation) return
+
+			this.avatar = this.activeConversation.data().avatar
+			this.name = UIHelper.getConversationName(this.activeConversation)
+		}
+	},
+	data () {
+		return {
+			avatar: null,
+			name: null
 		}
 	}
 }

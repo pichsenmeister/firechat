@@ -5,7 +5,7 @@
 			<b-input-group-text slot="prepend">
 				<i class="far fa-plus-square"></i>
 			</b-input-group-text>
-			<b-form-textarea v-model="composer" class="composer__textarea p-3" :placeholder="'Send a message to '+conversation.name"
+			<b-form-textarea v-model="composer" class="composer__textarea p-3" :placeholder="'Send a message to '+name"
 				:rows="1" :max-rows="7" @input="saveComposer">
 			</b-form-textarea>
 			<b-input-group-text slot="append" v-if="composer && composer.length" class="text-primary">
@@ -18,6 +18,8 @@
 </template>
 
 <script>
+import UIHelper from '@/services/uihelper'
+
 export default {
 	name: 'MessageComposer',
 	props: {
@@ -29,12 +31,20 @@ export default {
 	computed: {
 		composer: {
 			get () {
-				return this.$store.state.conversation.composer
+				return this.$store.getters.composer
 			},
 			set (value) {
 				this.$store.commit('setComposer', value)
 			}
 		}
+	},
+	data () {
+		return {
+			name: null
+		}
+	},
+	created () {
+		this.name = UIHelper.getConversationName(this.conversation)
 	},
 	methods: {
 		saveComposer () {
