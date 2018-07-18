@@ -9,3 +9,15 @@
 		resize: none;
 	}
 }
+
+@include block(message) {
+
+	background: $gray-200;
+	border-radius: .5rem;
+	padding: .5rem 1rem;
+
+	@include element(textarea) {
+		border: none;
+		resize: none;
+	}
+}

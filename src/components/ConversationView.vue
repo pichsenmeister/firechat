@@ -13,7 +13,7 @@
 					</b-col>
 				</b-row>
 				<div v-for="message in activeMessages" :key="message.id">
-					{{ message.id }}
+					<message-view v-bind="{message: message}"></message-view>
 				</div>
 			</div>
 

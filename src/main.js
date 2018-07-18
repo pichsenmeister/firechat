@@ -15,6 +15,7 @@ import ConversationTeaser from '@/components/partials/ConversationTeaser'
 import ConversationView from '@/components/ConversationView'
 
 import MessageComposer from '@/components/partials/MessageComposer'
+import MessageView from '@/components/partials/MessageView'
 
 import NavbarHorizontal from '@/components/NavbarHorizontal'
 
@@ -29,6 +30,7 @@ Vue.component('conversation-teaser', ConversationTeaser)
 Vue.component('conversation-view', ConversationView)
 
 Vue.component('message-composer', MessageComposer)
+Vue.component('message-view', MessageView)
 
 Vue.component('navbar-horizontal', NavbarHorizontal)
 
