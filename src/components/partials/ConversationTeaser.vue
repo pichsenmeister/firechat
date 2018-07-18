@@ -1,6 +1,6 @@
 <template>
 
-	<b-media class="p-2 conversation-teaser" no-body :class="{'conversation-teaser--active': $store.getters.activeConversation && $store.getters.activeConversation.id === conversation.id}"
+	<b-media class="p-2 conversation-teaser" no-body :class="{'conversation-teaser--active': activeConversation && activeConversation.id === conversation.id}"
 		@click="loadConversation(conversation)">
 		<b-media-aside>
 			<b-img slot="aside" :alt="name" :src="avatar" class="teaser__avatar" v-if="avatar" />
@@ -13,7 +13,7 @@
 				<small class="ml-auto text-secondary">{{ getDateDiff() }}</small>
 			</h6>
 			<p class="text-secondary m-0" v-if="preview">
-				<small v-if="preview.sender.id == $store.getters.userId">You:</small>
+				<small v-if="preview.sender.id == userId">You:</small>
 				<small v-if="preview.type == 'text'">{{ preview.content }}</small>
 				<small v-else-if="preview.type == 'image'"><i class="far fa-image"></i> Image</small>
 				<small v-else-if="preview.type == 'video'"><i class="fas fa-video"></i> Video</small>
@@ -34,6 +34,14 @@ export default {
 		conversation: {
 			type: Object,
 			required: true
+		}
+	},
+	computed: {
+		activeConversation () {
+			return this.$store.getters.activeConversation
+		},
+		userId () {
+			return this.$store.getters.userId
 		}
 	},
 	data () {

@@ -12,7 +12,13 @@
 			</b-col>
 		</b-row>
 
-		<conversation-teaser v-for="conversation in filtered($store.getters.conversations)" :key="conversation.id"
+		<b-row v-if="isLoading">
+			<b-col class="text-center">
+				<i class="fas fa-circle-notch fa-spin fa-2x text-secondary"></i>
+			</b-col>
+		</b-row>
+
+		<conversation-teaser v-for="conversation in filtered(conversations)" :key="conversation.id"
 			v-bind="{conversation: conversation}">
 		</conversation-teaser>
 
@@ -23,13 +29,21 @@
 
 export default {
 	name: 'ConversationList',
-	created () {
-		this.$store.dispatch('loadConversations', this.$store.getters.userId)
+	computed: {
+		isLoading () {
+			return this.$store.getters.areConversationsLoading
+		},
+		conversations () {
+			return this.$store.getters.conversations
+		}
 	},
 	data () {
 		return {
 			filter: null
 		}
+	},
+	created () {
+		this.$store.dispatch('loadConversations', this.$store.getters.userId)
 	},
 	methods: {
 		filtered (conversations) {

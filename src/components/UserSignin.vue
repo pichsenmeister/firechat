@@ -47,13 +47,6 @@ import FirebaseApp from '@/FirebaseApp'
 
 export default {
 	name: 'UserSignin',
-	data () {
-		return {
-			email: undefined,
-			password: undefined,
-			error: undefined
-		}
-	},
 	computed: {
 		user () {
 			return this.$store.getters.user
@@ -64,6 +57,13 @@ export default {
 			if (value !== null && value !== undefined) {
 				this.$router.push('/')
 			}
+		}
+	},
+	data () {
+		return {
+			email: undefined,
+			password: undefined,
+			error: undefined
 		}
 	},
 	methods: {

@@ -83,6 +83,8 @@ exports.insertSamples = functions.https.onRequest((request, response) => {
 			// #6 add message
 			data.from.ref = FirebaseApp.db.collection('users').doc(fromUserId)
 			data.to[0].ref = FirebaseApp.db.collection('users').doc(userId)
+			data.created_at = new Date()
+			data.updated_at = new Date()
 			return FirebaseApp.db.collection('conversations').doc(docId).collection('messages').add(data)
 		})
 		.then(() => {

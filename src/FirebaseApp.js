@@ -10,14 +10,11 @@ firestore.settings(settings)
 FirebaseApp.db = firestore
 
 FirebaseApp.loadUser = async currentUser => {
-	console.log('load user')
 	let user = await firestore.collection('users').doc(currentUser.uid).get()
-	console.log(user)
 	Store.commit('setUser', user)
 }
 
 FirebaseApp.signup = async (email, password) => {
-	console.log('signup')
 	try {
 		await firebase.auth().createUserWithEmailAndPassword(email, password)
 

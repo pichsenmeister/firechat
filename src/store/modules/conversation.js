@@ -6,44 +6,51 @@ const ConversationStore = {
 		activeConversation: null,
 		composer: null,
 		conversations: [],
-		loading: false,
+		loadingList: false,
+		loadingSingle: false,
 		members: {},
 		offset: 0
 	},
 	mutations: {
-		addConversation (state, payload) {
-			state.conversations.push(payload)
+		addConversation (state, conversation) {
+			state.conversations.push(conversation)
 		},
 		increaseOffset (state) {
 			state.offset += 20
 		},
-		setActiveConversation (state, payload) {
-			state.activeConversation = payload
+		setActiveConversation (state, conversation) {
+			state.activeConversation = conversation
 		},
 		setComposer (state, payload) {
 			if (!payload || !payload.length) payload = null
 			state.composer = payload
 		},
-		setConversations (state, payload) {
-			state.conversations = payload
+		setConversations (state, conversations) {
+			state.conversations = conversations
 		},
-		setLoading (state, payload) {
-			state.loading = payload
+		setLoadingConversation (state, payload) {
+			state.loadingSingle = payload
+		},
+		setLoadingConversations (state, payload) {
+			state.loadingList = payload
 		},
 		setMembers (state, payload) {
+			// payload: {id: conversationId, users: [Array of users]}
 			state.members[payload.id] = payload.users
 		}
 	},
 	actions: {
-		addConversation ({commit, state}, payload) {
+		addConversation ({commit, state}, conversation) {
 			let conversations = state.conversations
-			let exists = conversations.some(c => c.id === payload.id)
-			if (!exists) commit('addConversation', payload)
+			let exists = conversations.some(c => c.id === conversation.id)
+			if (!exists) commit('addConversation', conversation)
 		},
-		async loadConversations ({commit, dispatch}, payload) {
+		async loadConversations ({commit, dispatch}, userId) {
+			commit('setLoadingConversations', true)
+
 			// firestore workaround for compound queries sorted by date, see: https://firebase.google.com/docs/firestore/solutions/arrays
 			// #1 load all conversations from user subcollection
-			let userConversationsSnapshot = await FirebaseApp.db.collection('users').doc(payload)
+			let userConversationsSnapshot = await FirebaseApp.db.collection('users').doc(userId)
 				.collection('conversations')
 				.orderBy('updated_at', 'desc')
 				// .startAt(state.offset).limit(20)
@@ -65,9 +72,10 @@ const ConversationStore = {
 			}))
 
 			conversations.forEach(conversation => dispatch('addConversation', conversation))
-			commit('increaseOffset')
+			// commit('increaseOffset')
+			commit('setLoadingConversations', false)
 		},
-		async loadConversation ({commit, state}, payload) {
+		async loadConversation ({commit, state}, conversation) {
 			// if there's already an existing conversation, save composer message to local storage
 			// before setting new conversation active
 			if (state.activeConversation) {
@@ -75,22 +83,22 @@ const ConversationStore = {
 			}
 
 			commit('setActiveConversation', null)
-			commit('setLoading', true)
+			commit('setLoadingConversation', true)
 
-			let conversation = await FirebaseApp.db.collection('conversations').doc(payload.id).get()
 			// now load composer message to new conversation
 			let composer = (LocalStorage.get('conversation:' + conversation.id) || {}).composer
 
 			commit('setActiveConversation', conversation)
 			commit('setComposer', composer)
-			commit('setLoading', false)
+			commit('setLoadingConversation', false)
 		}
 	},
 	getters: {
 		activeConversation: state => state.activeConversation,
+		areConversationsLoading: state => state.loadingList,
 		composer: state => state.composer,
 		conversations: state => state.conversations,
-		isConversationLoading: state => state.loading,
+		isConversationLoading: state => state.loadingSingle,
 		members: state => state.members
 	}
 }
