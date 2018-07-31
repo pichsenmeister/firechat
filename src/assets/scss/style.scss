@@ -16,13 +16,15 @@
 
 @import url("https://use.fontawesome.com/releases/v5.0.13/css/all.css");
 
-body {
-	height: 100vh;
-}
-
 html, body {
 	font-size: $font-size-base;
+	line-height: $font-size-base;
 	overflow: hidden;
+}
+
+#app {
+	width: 100wh;
+	height: 100vh;
 }
 
 div {
@@ -31,4 +33,8 @@ div {
 
 .section {
 	margin: 4rem auto;
+}
+
+.pointer {
+	cursor: pointer;
 }

@@ -1,20 +1,29 @@
 <template>
-	<section class="conversation-view h-100">
+	<section class="conversation-view d-flex flex-fill p-0">
 
-		<div class="d-flex flex-column align-content-stretch h-100" v-if="activeConversation">
-			<div class="conversation-view__header p-2 text-center">
-				<span>{{ name }}</span>
+		<div class="d-flex flex-fill flex-nowrap flex-column" v-if="activeConversation">
+			<div class="container-fluid">
+				<b-row class="conversation-view__header p-2 text-center">
+					<b-col cols="8" offset="2">{{ name }}</b-col>
+					<b-col cols="2" class="text-right">
+						<i class="fas fa-info-circle pointer" @click="toggleSidebar"></i>
+					</b-col>
+				</b-row>
 			</div>
 
-			<div class="conversation-view__main p-2 flex-grow-1">
-				<b-row class="m-2" v-if="isLoading">
+			<div class="d-flex justify-content-center align-items-center p-2"  v-if="isLoading">
+				<span>
+					<i class="fas fa-circle-notch fa-spin fa-2x text-secondary"></i>
+				</span>
+			</div>
+
+			<div class="conversation-view__main flex-grow-1 p-2" v-chat-scroll="{always: true, smooth: false}">
+				<!-- <b-row class="m-2" v-if="isLoading">
 					<b-col class="text-center">
 						<i class="fas fa-circle-notch fa-spin fa-2x text-secondary"></i>
 					</b-col>
-				</b-row>
-				<div v-for="message in activeMessages" :key="message.id">
-					<message-view v-bind="{message: message}"></message-view>
-				</div>
+				</b-row> -->
+				<message-view v-for="message in activeMessages" :key="message.id" v-bind="{message: message}"></message-view>
 			</div>
 
 			<div class="conversation-view__footer">
@@ -22,8 +31,8 @@
 			</div>
 		</div>
 
-		<div class="d-flex justify-content-center align-items-center h-100" v-else>
-			<span class="m-auto">Please select a conversation</span>
+		<div class="m-auto" v-else>
+			<span>Please select a conversation</span>
 		</div>
 
 	</section>
@@ -65,8 +74,8 @@ export default {
 
 	},
 	methods: {
-		loadMessages () {
-
+		toggleSidebar () {
+			this.$store.dispatch('toggleConversationInfoSidebar')
 		}
 	}
 

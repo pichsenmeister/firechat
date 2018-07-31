@@ -45,16 +45,22 @@ const ConversationStore = {
 			let exists = conversations.some(c => c.id === conversation.id)
 			if (!exists) commit('addConversation', conversation)
 		},
-		async loadConversations ({commit, dispatch}, userId) {
+		async loadConversations ({commit, dispatch, state}, userId) {
 			commit('setLoadingConversations', true)
+
+			let length = state.conversations.length
+			let cursor = length ? state.conversations[length - 1] : null
 
 			// firestore workaround for compound queries sorted by date, see: https://firebase.google.com/docs/firestore/solutions/arrays
 			// #1 load all conversations from user subcollection
-			let userConversationsSnapshot = await FirebaseApp.db.collection('users').doc(userId)
+			let query = FirebaseApp.db.collection('users').doc(userId)
 				.collection('conversations')
 				.orderBy('updated_at', 'desc')
-				// .startAt(state.offset).limit(20)
-				.get()
+			if (cursor) {
+				query = query.startAfter(cursor)
+			}
+			let userConversationsSnapshot = await query.limit(10).get()
+			if (!userConversationsSnapshot || !userConversationsSnapshot.docs) return
 
 			// #2 load full conversations from conversation collection
 			let conversationDocs = await Promise.all(userConversationsSnapshot.docs.map(doc => {
@@ -72,10 +78,11 @@ const ConversationStore = {
 			}))
 
 			conversations.forEach(conversation => dispatch('addConversation', conversation))
-			// commit('increaseOffset')
 			commit('setLoadingConversations', false)
 		},
 		async loadConversation ({commit, state}, conversation) {
+			if (state.activeConversation && conversation && state.activeConversation.id === conversation.id) return
+
 			// if there's already an existing conversation, save composer message to local storage
 			// before setting new conversation active
 			if (state.activeConversation) {

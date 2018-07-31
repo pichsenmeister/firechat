@@ -83,9 +83,41 @@ exports.insertSamples = functions.https.onRequest((request, response) => {
 			// #6 add message
 			data.from.ref = FirebaseApp.db.collection('users').doc(fromUserId)
 			data.to[0].ref = FirebaseApp.db.collection('users').doc(userId)
-			data.created_at = new Date()
-			data.updated_at = new Date()
-			return FirebaseApp.db.collection('conversations').doc(docId).collection('messages').add(data)
+
+			let promises = []
+			for (let i = 0; i < 50; i++) {
+				let promise = new Promise((resolve, reject) => {
+					console.log('set timeout')
+					setTimeout(() => {
+						console.log('resolve')
+						resolve()
+					}, i * 1000)
+				})
+				promise.then(() => {
+					console.log('add message')
+					data.created_at = new Date()
+					data.updated_at = new Date()
+					return FirebaseApp.db.collection('conversations').doc(docId).collection('messages').add(data)
+				})
+
+				promises.push(promise)
+			}
+
+			return Promise.all(promises)
+		})
+		.then(() => {
+			// #6 add message
+			data.from.ref = FirebaseApp.db.collection('users').doc(fromUserId)
+			data.to[0].ref = FirebaseApp.db.collection('users').doc(userId)
+
+			let promises = []
+			for (let i = 0; i < 15; i++) {
+				data.created_at = new Date()
+				data.updated_at = new Date()
+				promises.push(FirebaseApp.db.collection('conversations').doc(docId).collection('messages').add(data))
+			}
+
+			return Promise.all(promises)
 		})
 		.then(() => {
 			return FirebaseApp.db.collection('users').doc(userId).collection('conversations').doc(docId).set({

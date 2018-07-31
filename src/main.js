@@ -2,7 +2,10 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
-import MomentVue from 'vue-moment'
+import VueMoment from 'vue-moment'
+import InfiniteScroll from 'vue-infinite-scroll'
+import VueChatScroll from 'vue-chat-scroll'
+
 import firebase from 'firebase'
 
 import App from '@/App'
@@ -23,7 +26,10 @@ import FirebaseApp from '@/FirebaseApp'
 import '@/assets/scss/style.scss'
 
 Vue.use(BootstrapVue)
-Vue.use(MomentVue)
+Vue.use(VueMoment)
+Vue.use(InfiniteScroll)
+Vue.use(VueChatScroll)
+
 Vue.component('conversation-info', ConversationInfo)
 Vue.component('conversation-list', ConversationList)
 Vue.component('conversation-teaser', ConversationTeaser)

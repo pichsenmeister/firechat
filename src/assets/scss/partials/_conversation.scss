@@ -1,5 +1,6 @@
 @include block(conversation-info) {
-	padding: 2rem;
+	overflow-y: auto;
+    overflow-x: hidden;
 
 	@include element(avatar) {
 		border-radius: 50%;
@@ -9,11 +10,10 @@
 }
 
 @include block(conversation-list) {
-	overflow-y: scroll;
+	overflow-y: auto;
 	overflow-x: hidden;
 	
 	@include element(search) {
-		padding: 1rem;
 	}
 }
 
@@ -36,10 +36,14 @@
 }
 
 @include block(conversation-view) {
-	padding: 0;
 
 	@include element(header) {
 		border-bottom: $separator-width solid $separator-color;
+	}
+
+	@include element(main) {
+		overflow-y: auto;
+    	overflow-x: hidden;
 	}
 
 	@include element(footer) {

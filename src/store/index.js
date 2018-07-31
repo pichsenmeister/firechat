@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import ConversationStore from '@/store/modules/conversation'
+import LayoutStore from '@/store/modules/layout'
 import MessageStore from '@/store/modules/message'
 
 Vue.use(Vuex)
@@ -9,6 +10,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
 	modules: {
 		conversation: ConversationStore,
+		layout: LayoutStore,
 		message: MessageStore
 	},
 	state: {

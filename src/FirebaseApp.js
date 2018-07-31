@@ -41,7 +41,7 @@ FirebaseApp.signin = async (email, password) => {
 		let currentUser = firebase.auth().currentUser
 		let user = await firestore.collection('users').doc(currentUser.uid).get()
 
-		Store.commit('initUser', user)
+		Store.commit('setUser', user)
 		return true
 	} catch (err) {
 		console.error(err)

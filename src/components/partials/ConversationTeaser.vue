@@ -10,7 +10,7 @@
 		<b-media-body class="my-auto ml-2">
 			<h6 class="mt-1 mb-0 d-flex flex-row align-items-baseline">
 				<span>{{ name }}</span>
-				<small class="ml-auto text-secondary">{{ getDateDiff() }}</small>
+				<small class="ml-auto text-secondary">{{ time }}</small>
 			</h6>
 			<p class="text-secondary m-0" v-if="preview">
 				<small v-if="preview.sender.id == userId">You:</small>
@@ -55,23 +55,9 @@ export default {
 		this.avatar = this.conversation.data().avatar
 		this.name = UIHelper.getConversationName(this.conversation)
 		this.preview = this.conversation.data().preview
+		this.time = UIHelper.formatDate(this.conversation.data().updated_at, this.$moment)
 	},
 	methods: {
-		getDateDiff () {
-			let updated = this.$moment(this.conversation.data().updated_at.seconds * 1000)
-			let now = this.$moment()
-			let days = now.diff(updated, 'days')
-			let years = now.diff(updated, 'years')
-			if (days === 0) {
-				return updated.format('h:mma')
-			} else if (days < 7) {
-				return updated.format('ddd')
-			} else if (years === 0) {
-				return updated.format('MMM D')
-			} else {
-				return updated.format('MMM D, YYYY')
-			}
-		},
 		loadConversation () {
 			this.$store.dispatch('loadConversation', this.conversation)
 		}

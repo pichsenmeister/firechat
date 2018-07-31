@@ -12,12 +12,25 @@
 
 @include block(message) {
 
-	background: $gray-200;
-	border-radius: .5rem;
-	padding: .5rem 1rem;
+	@include element(bubble) {
+		background: $gray-200;
+		max-width: 75%;
+	}
 
-	@include element(textarea) {
-		border: none;
-		resize: none;
+	@include element(meta) {
+		line-height: 1rem;
+		margin: auto 2.5rem;
+
+		small {
+			font-size: .5rem;
+		}
+	}
+
+	@include element(avatar) {
+		width: 2rem;
+		height: 2rem;
+		img {
+			width: 100%;
+		}
 	}
 }

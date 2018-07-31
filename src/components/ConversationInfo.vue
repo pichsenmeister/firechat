@@ -1,5 +1,5 @@
 <template>
-	<section class="conversation-info h-100" v-if="activeConversation">
+	<section class="conversation-info h-100 p-4" v-if="activeConversation">
 
 		<b-row class="text-center">
 			<b-col>
@@ -28,17 +28,25 @@ export default {
 		}
 	},
 	watch: {
-		activeConversation (value) {
-			if (!this.activeConversation) return
-
-			this.avatar = this.activeConversation.data().avatar
-			this.name = UIHelper.getConversationName(this.activeConversation)
+		activeConversation () {
+			this.initConversation()
 		}
 	},
 	data () {
 		return {
 			avatar: null,
 			name: null
+		}
+	},
+	created () {
+		this.initConversation()
+	},
+	methods: {
+		initConversation () {
+			if (!this.activeConversation) return
+
+			this.avatar = this.activeConversation.data().avatar
+			this.name = UIHelper.getConversationName(this.activeConversation)
 		}
 	}
 }

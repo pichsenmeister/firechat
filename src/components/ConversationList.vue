@@ -1,7 +1,7 @@
 <template>
-	<section class="conversation-list h-100">
+	<section class="conversation-list">
 
-		<b-row class="conversation-list__search">
+		<b-row class="conversation-list__search p-3">
 			<b-col>
 				<b-input-group>
 					<b-input-group-text slot="prepend">
@@ -12,15 +12,15 @@
 			</b-col>
 		</b-row>
 
+		<conversation-teaser v-for="conversation in filtered(conversations)" :key="conversation.id"
+			v-bind="{conversation: conversation}">
+		</conversation-teaser>
+
 		<b-row v-if="isLoading">
 			<b-col class="text-center">
 				<i class="fas fa-circle-notch fa-spin fa-2x text-secondary"></i>
 			</b-col>
 		</b-row>
-
-		<conversation-teaser v-for="conversation in filtered(conversations)" :key="conversation.id"
-			v-bind="{conversation: conversation}">
-		</conversation-teaser>
 
 	</section>
 </template>

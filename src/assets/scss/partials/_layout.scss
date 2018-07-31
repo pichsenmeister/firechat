@@ -11,7 +11,6 @@
 
 	@include element(sidebar) {
 		background: inherit;
-		padding: 0;
 
 		@include modifier('left') {
 			border-right: $separator-width solid $separator-color;
@@ -23,7 +22,7 @@
 	}
 
 	@include element(main) {
-		padding: 0;
+
 	}
 
 }
